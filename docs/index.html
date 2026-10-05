@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LeetCode Log</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23e8890c'/><path d='M9 11l-4 5 4 5M23 11l4 5-4 5M18 8l-4 16' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">LeetCode Log</div>
+    <div class="stats" id="stats"></div>
+    <div class="account" id="account" hidden>
+      <span id="user-email"></span>
+      <button type="button" class="ghost" id="sign-out">Sign out</button>
+    </div>
+  </header>
+
+  <div class="banner" id="demo-banner" hidden>
+    <strong>Demo mode:</strong> entries are saved in this browser only. Connect Supabase
+    (see the README) to save them online and use them on every device.
+  </div>
+
+  <main id="loading-view" class="center-view"><p class="muted">Loading…</p></main>
+
+  <main id="login-view" class="center-view" hidden>
+    <form id="login-form" class="card login">
+      <h1>Sign in</h1>
+      <label>Email
+        <input type="email" name="email" required autocomplete="username">
+      </label>
+      <label>Password
+        <input type="password" name="password" required autocomplete="current-password">
+      </label>
+      <button type="submit" class="primary">Sign in</button>
+      <p class="error" id="login-error" role="alert"></p>
+    </form>
+  </main>
+
+  <main id="app-view" class="layout" hidden>
+    <section class="card editor" aria-labelledby="form-title">
+      <form id="problem-form" autocomplete="off">
+        <div class="form-head">
+          <h2 id="form-title">Add a problem</h2>
+          <button type="button" class="ghost" id="cancel-edit" hidden>Cancel</button>
+        </div>
+
+        <div class="row">
+          <label class="grow">Problem number
+            <input name="number" inputmode="numeric" pattern="[0-9]+" title="Digits only, e.g. 1" required>
+          </label>
+          <label>Difficulty
+            <select name="difficulty">
+              <option value="">–</option>
+              <option>Easy</option>
+              <option>Medium</option>
+              <option>Hard</option>
+            </select>
+          </label>
+        </div>
+        <p class="hint" id="number-hint" aria-live="polite"></p>
+
+        <label>Title
+          <input name="title" placeholder="Fills in from the number">
+        </label>
+
+        <div class="field">
+          <label for="tag-entry">Type</label>
+          <div class="tag-input" id="tag-box">
+            <input id="tag-entry" list="tag-options" placeholder="e.g. Two Pointers, then Enter">
+          </div>
+          <datalist id="tag-options"></datalist>
+          <div class="suggestions" id="tag-suggestions"></div>
+        </div>
+
+        <label>Description
+          <textarea name="description" rows="9"
+            placeholder="Approach, key insight, time/space complexity, mistakes to avoid…"></textarea>
+        </label>
+
+        <label class="check">
+          <input type="checkbox" name="needs_review"> Needs review
+        </label>
+
+        <div class="actions">
+          <button type="submit" class="primary" id="save-btn">Save</button>
+          <span class="muted small">or Ctrl + Enter</span>
+        </div>
+      </form>
+    </section>
+
+    <section class="list-pane" aria-label="Your problems">
+      <div class="filters">
+        <input type="search" id="search" placeholder="Search number, title, notes…" aria-label="Search">
+        <select id="filter-tag" aria-label="Filter by type"><option value="">All types</option></select>
+        <select id="filter-diff" aria-label="Filter by difficulty">
+          <option value="">All difficulties</option>
+          <option>Easy</option>
+          <option>Medium</option>
+          <option>Hard</option>
+        </select>
+        <select id="sort" aria-label="Sort">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="number">By number</option>
+          <option value="difficulty">By difficulty</option>
+        </select>
+        <label class="check"><input type="checkbox" id="filter-review"> Needs review only</label>
+      </div>
+      <p class="muted small" id="result-count"></p>
+      <ul class="problem-list" id="problem-list"></ul>
+      <p class="empty" id="empty" hidden></p>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
